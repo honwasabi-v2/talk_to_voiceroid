@@ -19,7 +19,7 @@ G_API = None
 class talk_message:
     CHARA = 0
     def __init__(self,chara = 0):
-            self.CHARA = chara;
+        self.CHARA = chara
     def set_chara(self,num):
         self.CHARA = num
     
@@ -50,12 +50,11 @@ class command:
         print("exit")
         sys.exit()
     
-    def command_err(self):
-        print("please input message")
-        message = input("message : ")
-        if message in self.COMMAND:
-            self.COMMAND[message](self)    
-    
+    def command_None(self):
+        print("messageが空です")
+        tm = talk_message(G_CHARA)
+        tm.input_speech(G_API)
+
     def command_openai(self):
         import openaiAPI as API
         global G_API
@@ -118,7 +117,7 @@ class command:
                "-list":command_list,
                "-say":command_say,
                "-chara":command_chara,
-               "": command_err,
+               "": command_None,
                "終了":command_exit,
                "キーボード":command_keybord,               
                }
