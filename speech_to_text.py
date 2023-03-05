@@ -88,9 +88,11 @@ def wav_to_text(filename = FILE_PATH):
      
     with sr.AudioFile(filename) as source:
         audio = r.record(source)
-     
-    text = r.recognize_google(audio, language='ja-JP')
-     
+    try:
+        text = r.recognize_google(audio, language='ja-JP')
+    except:
+        print("上手く聞き取れませんでした")
+        text = ""
     return text
 
 
