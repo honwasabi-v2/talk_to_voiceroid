@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-OPENAI_SECRET_KEY = "-------secretkey----------------"
+OPENAI_SECRET_KEY = "-------APIkey----------------"
 OPENAI_ENGINE = 'text-davinci-003'
 
 
@@ -12,7 +12,7 @@ class api:
         self.openai_engine = engine
     
     def send(self,prompt):
-        print("please wait...")
+        print("please wait...(openAIAPI...)")
         completions = self.openai.Completion.create(
             engine= self.openai_engine,
             prompt=prompt,

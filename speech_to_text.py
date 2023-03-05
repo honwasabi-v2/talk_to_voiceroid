@@ -4,10 +4,8 @@
 import pyaudio
 import wave
 import speech_recognition as sr
-#import talk_message
 
 import numpy as np
-from datetime import datetime
 import time 
 
 FILE_PATH = "output.wav"
@@ -26,7 +24,6 @@ def recording():
     threshold = 0.1 # 閾値 
     
     print("recording......")
-    start = time.time()  
     
     #話しし始めるまでループ
     while True:
@@ -43,7 +40,6 @@ def recording():
        x = np.frombuffer(data, dtype="int16") / 32768.0
     
        if x.max() > threshold:
-          end = time.time()  # 計測終了
           print("recording start")
           finish = False
           frames = []

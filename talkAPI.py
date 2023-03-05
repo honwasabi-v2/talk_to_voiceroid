@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ENDPOINT = 'https://api.a3rt.recruit.co.jp/talk/v1/smalltalk'
-SECRET_KEY = "-------secretkey----------------"
+SECRET_KEY = "-------APIkey----------------"
 
 import requests
 
@@ -15,7 +15,7 @@ class api:
             'apikey': self.apikey,
             'query': message,
         }
-        print("please wait...")
+        print("please wait...(talkAPI....)")
         json = requests.post(self.endpoint, data).json()
         #通常は{'status': 0, 'message': 'ok', 'results': [{'perplexity': 数値, 'reply': 文字列}]}
         #errだと{'status': 1400, 'message': 'bad request'}
