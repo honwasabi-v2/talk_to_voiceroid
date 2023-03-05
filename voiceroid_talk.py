@@ -12,14 +12,14 @@ import sys
 import speech_to_text as stt
 import text_to_speech as tts
 
-
-
+G_CHARA = 0
+G_API = None
 
 
 class talk_message:
     CHARA = 0
     def __init__(self,chara = 0):
-            self.CHARA = chara;
+        self.CHARA = chara
     def set_chara(self,num):
         self.CHARA = num
     
@@ -36,6 +36,9 @@ class talk_message:
         while(1):
             stt.recording()
             message = stt.wav_to_text()  
+            if message == "":
+                continue
+            print(message)
             if message in command.COMMAND:
                 command.COMMAND[message](command)
             reply  = api.send(message)
@@ -49,26 +52,27 @@ class command:
         print("exit")
         sys.exit()
     
-    def command_err(self):
-        print("please input message")
-        message = input("message : ")
-        if message in self.COMMAND:
-            self.COMMAND[message](self)    
-    
+    def command_None(self):
+        print("messageが空です")
+        tm = talk_message(G_CHARA)
+        tm.input_message(G_API)
+
     def command_openai(self):
         import openaiAPI as API
+        global G_API
         key = input("openAI_APIkey:")
-        API = API.api(key)
-        tm = talk_message(chara)
-        tm.input_message(API)
+        G_API = API.api(key)
+        tm = talk_message(G_CHARA)
+        tm.input_message(G_API)
 
     
     def command_talkapi(self):
-        import talkAPI as API        
+        import talkAPI as API
+        global G_API        
         key = input("talkAPI_APIkey:")
-        API = API.api(key)
-        tm = talk_message(chara)
-        tm.input_message(API)
+        G_API = API.api(key)
+        tm = talk_message(G_CHARA)
+        tm.input_message(G_API)
         
     def command_list(self):
         for command in self.COMMAND:
@@ -76,16 +80,36 @@ class command:
         message = input("message : ")
         if message in self.COMMAND:
             self.COMMAND[message](self)  
+            
     def command_say(self):
         print("音声入力モード")
-        tm = talk_message(chara)
-        tm.input_speech(API)
+        tm = talk_message(G_CHARA)
+        tm.input_speech(G_API)
             
     def command_keybord(self):
         print("キーボード入力モード")
-        tm = talk_message(chara)
-        tm.input_message(API)
-        
+        tm = talk_message(G_CHARA)
+        tm.input_message(G_API)
+    
+    def command_chara(self):    
+        global G_CHARA 
+        voiceroid_list = tts.get_list()
+        for i,name in enumerate(voiceroid_list):
+            print(i,name)
+        while 1:
+            try:
+                chara = int(input("会話するキャラの番号を入力してください"))
+                if 0 <= chara <= len(voiceroid_list)-1 :
+                    G_CHARA = chara
+                    tm = talk_message(G_CHARA)
+                    break
+                else:
+                    print("0から",len(voiceroid_list)-1,"までの数字を入力してください")
+            except ValueError:
+                print ("エラー：数字以外の文字を入力しないでください。")
+        tm.input_message(G_API)
+            
+            
     COMMAND = {"-EXIT":command_exit,              
                "-q":command_exit,
                "-openAIAPI":command_openai,
@@ -94,22 +118,23 @@ class command:
                "-h":command_list,
                "-list":command_list,
                "-say":command_say,
-               "": command_err,
+               "-chara":command_chara,
+               "": command_None,
                "終了":command_exit,
-               "キーボード":command_keybord,
-               
+               "キーボード":command_keybord,               
                }
     
 if __name__ == "__main__":
     voiceroid_list = tts.get_list()
-    for i,chara in enumerate(voiceroid_list):
-        print(i,chara)
+    for i,name in enumerate(voiceroid_list):
+        print(i,name)
     chara = 0
     while 1:
         try:
             chara = int(input("会話するキャラの番号を入力してください"))
             if 0 <= chara <= len(voiceroid_list)-1 :
-                clobj = talk_message(chara)
+                G_CHARA = chara
+                tm = talk_message(G_CHARA)
                 break
             else:
                 print("0から",len(voiceroid_list)-1,"までの数字を入力してください")
@@ -122,13 +147,13 @@ if __name__ == "__main__":
         if(num_API == "0"):
             import talkAPI as API
             key = input("talkAPI_APIkey:")
-            API = API.api(key)
-            clobj.input_speech(API)
+            G_API = API.api(key)
+            tm.input_speech(G_API)
         elif(num_API == "1"):
             import openaiAPI as API
             key = input("openAI_APIkey:")
-            API = API.api(key)
-            clobj.input_speech(API)
+            G_API = API.api(key)
+            tm.input_speech(G_API)
             
 
 
