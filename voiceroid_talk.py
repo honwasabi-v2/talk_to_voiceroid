@@ -36,6 +36,8 @@ class talk_message:
         while(1):
             stt.recording()
             message = stt.wav_to_text()  
+            if message == "":
+                continue
             print(message)
             if message in command.COMMAND:
                 command.COMMAND[message](command)
@@ -53,7 +55,7 @@ class command:
     def command_None(self):
         print("messageが空です")
         tm = talk_message(G_CHARA)
-        tm.input_speech(G_API)
+        tm.input_message(G_API)
 
     def command_openai(self):
         import openaiAPI as API
