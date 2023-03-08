@@ -8,13 +8,17 @@ talkAPI.py:		RECRUITのA3RT APIを利用して文字列から返答を用意し�
 speech_to_text.py:	音声をpyaudioを用いて処理する．音声をoutput.wavに保存し，wavファイルからテキストにする．  
 text_to_speech.py:	pyvcroid2を用いて文字列をVOICEROIDに発声させる  
 voiceroid_talk.py:	メインで実行するファイル．各種コマンドもここ．  
+requirements.txt:　必要なライブラリ一覧
 
 ●実行に必要なもの  
-・RECRUITのA3RT(https://a3rt.recruit.co.jp/)かopenAI(https://openai.com/blog/openai-api)のAPIKey  
+・RECRUITのA3RT(https://a3rt.recruit.co.jp/ )かopenAI(https://openai.com/blog/openai-api )のAPIKey  
+・pyvcroid2 (https://github.com/Nkyoku/pyvcroid2 )  
+・他ライブラリ(requests，openai，sys，threading，time，winsound，numpy，pyaudio，wave，speech_recognition)   
 ・VOICEROID2本体  
-・pyvcroid2 (https://github.com/Nkyoku/pyvcroid2)  
-・他ライブラリ(requests，openai，sys，threading，time，winsound，numpy，pyaudio，wave，speech_recognition)  
-・python(私の環境では32bit版でしか動かなかった)  
+・python  
+pythonとVOICEROIDは32bit版か64bit版で統一しないといけないようです
+
+
 
 ●実行方法  
 1.	各種ライブラリとAPIKeyを用意する  
