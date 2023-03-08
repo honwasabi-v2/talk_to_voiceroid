@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-
-
 import pyvcroid2
 import threading
 import time
@@ -47,14 +45,13 @@ def speech(message="default",chara = 0):
         lang_list = vc.listLanguages()
         try:
             if "standard" in lang_list:
-                print(lang_list)
                 vc.loadLanguage("standard")
             elif 0 < len(lang_list):
-                print(lang_list)
                 vc.loadLanguage(lang_list[0])
             else:
                 raise Exception("No language library")
-        except:                    
+        except:       
+            print("lang_list = ",lang_list)             
             print(sys.exc_info())
             return 
 
