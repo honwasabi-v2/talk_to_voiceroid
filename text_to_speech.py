@@ -5,6 +5,7 @@ import pyvcroid2
 import threading
 import time
 import winsound
+import sys
 
 
 VOLUME = 1
@@ -44,12 +45,19 @@ def speech(message="default",chara = 0):
     with pyvcroid2.VcRoid2() as vc:
         # Load language library
         lang_list = vc.listLanguages()
-        if "standard" in lang_list:
-            vc.loadLanguage("standard")
-        elif 0 < len(lang_list):
-            vc.loadLanguage(lang_list[0])
-        else:
-            raise Exception("No language library")
+        try:
+            if "standard" in lang_list:
+                print(lang_list)
+                vc.loadLanguage("standard")
+            elif 0 < len(lang_list):
+                print(lang_list)
+                vc.loadLanguage(lang_list[0])
+            else:
+                raise Exception("No language library")
+        except:                    
+            print(sys.exc_info())
+            return 
+
         
         # Load Voice
         voice_list = vc.listVoices() 
@@ -75,4 +83,8 @@ def speech(message="default",chara = 0):
         winsound.PlaySound(speech, winsound.SND_MEMORY)
         t.join()
         
-        
+if __name__ == '__main__':
+    text = input("text:")
+    while text != "EXIT":
+        speech(text)
+        text = input("text:")
